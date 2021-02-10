@@ -89,10 +89,16 @@ const FreeboardConfig= {
 @Injectable({ providedIn: 'root' })
 export class AppInfo extends Info {
 
+    // private DEV_SERVER= {
+    //     host: '172.17.0.1',  //'192.168.86.32', //'172.17.0.1', // host name || ip address
+    //     port: 3000,     // port number
+    //     ssl: false
+    // };
+
     private DEV_SERVER= {
-        host: '172.17.0.1',  //'192.168.86.32', //'172.17.0.1', // host name || ip address
-        port: 3000,     // port number
-        ssl: false
+        host: window.location.search.substring(1).replace("url=",""),
+        port: 3443,
+        ssl: true
     };
 
     public hostName: string;
@@ -114,6 +120,7 @@ export class AppInfo extends Info {
         this.db= new AppDB();
 
         this.hostName= (this.devMode && this.DEV_SERVER.host) ? this.DEV_SERVER.host : window.location.hostname;
+        console.log("window loc: ",window.location.search.substring(1).replace("url=",""));
         this.hostPort= (this.devMode && this.DEV_SERVER.port) ? this.DEV_SERVER.port : parseInt(window.location.port);
         this.hostSSL= (window.location.protocol=='https:' || 
                         (this.devMode && this.DEV_SERVER.ssl) ) ? true : false;
